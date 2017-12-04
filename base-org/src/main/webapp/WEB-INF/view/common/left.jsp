@@ -8,15 +8,16 @@
                 <dl class="layui-nav-child">
                     <dd><a href="${base}/resource/page/list">资源列表</a></dd>
                     <dd><a href="${base}/resource/page/add">新增资源</a></dd>
+                    <%--<dd><a href="${base}/resource/page/update">编辑资源</a></dd>--%>
                 </dl>
             </li>
-            <%--<li class="layui-nav-item">
-                <a href="javascript:;">解决方案</a>
+            <li class="layui-nav-item">
+                <a href="javascript:;">角色管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">列表一</a></dd>
-                    <dd><a href="javascript:;">列表二</a></dd>
+                    <dd><a href="javascript:;">角色列表</a></dd>
+                    <dd><a href="javascript:;">新增角色</a></dd>
                 </dl>
-            </li>--%>
+            </li>
         </ul>
     </div>
 </div>

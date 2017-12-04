@@ -1,5 +1,7 @@
 package com.dzqc.resource.entity;
 
+import com.dzqc.base.util.ObjectUtil;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -181,5 +183,10 @@ public class OrgResourceV2 implements Serializable {
 
     public void setChildList(List<OrgResourceV2> childList) {
         this.childList = childList;
+    }
+
+    public void setDefaultData(){
+        this.id = ObjectUtil.createUUID();
+        this.createTime = new Date();
     }
 }
