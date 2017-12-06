@@ -24,7 +24,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">资源类型：</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="type" value="1" title="模块" lay-filter="radioFilter" checked>
+                        <input type="radio" name="type" value="0" title="子系统" lay-filter="radioFilter" checked>
+                        <input type="radio" name="type" value="1" title="模块" lay-filter="radioFilter">
                         <input type="radio" name="type" value="2" title="菜单" lay-filter="radioFilter">
                         <input type="radio" name="type" value="3" title="按钮" lay-filter="radioFilter">
                     </div>
@@ -65,6 +66,13 @@
     <jsp:include page="../common/footer.jsp" />
 </div>
 
+<script id="system_template" type="text/html">
+    <option value=""></option>
+    <c:forEach var="system" items="${systems}">
+        <option value="${system.id}">${system.name}</option>
+    </c:forEach>
+</script>
+
 <script id="module_template" type="text/html">
     <option value=""></option>
     <c:forEach var="module" items="${modules}">
@@ -93,14 +101,19 @@
 
         form.on('radio(radioFilter)', function(data){
             var radioValue = data.value;
-            if (radioValue == 1){
+            if (radioValue == 0){
                 layElHide(".partent-id");
                 layElHide(".res-url");
                 layElHide(".res-code")
+            }else if (radioValue == 1) {
+                layElshow(".partent-id");
+                layElHide(".res-url");
+                layElHide(".res-code");
+                system_show();
             }else if (radioValue == 2) {
                 layElshow(".partent-id");
                 layElshow(".res-url");
-                layElHide(".res-code")
+                layElHide(".res-code");
                 module_show();
             }else if (radioValue == 3){
                 layElshow(".partent-id");
@@ -156,6 +169,13 @@
         layui.jquery(el_class).show();
         layui.jquery(el_class).find('input[type="text"]').attr("required");
         layui.jquery(el_class).find('input[type="text"]').attr("lay-verify", true);
+    }
+
+    /**
+     * 系统资源
+     */
+    function system_show(){
+        layui.jquery("#parentId").html(system_template.innerHTML);
     }
 
     /**

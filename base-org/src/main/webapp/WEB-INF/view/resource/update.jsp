@@ -29,6 +29,9 @@
                     <label class="layui-form-label">资源类型：</label>
                     <div class="layui-input-block">
                         <input type="hidden" name="type" value="${res.type}" />
+                        <c:if test="${res.type == 0}">
+                            <label class="layui-form-label" style="text-align: left;">子系统</label>
+                        </c:if>
                         <c:if test="${res.type == 1}">
                             <label class="layui-form-label" style="text-align: left;">模块</label>
                         </c:if>
@@ -62,7 +65,7 @@
                         <input type="text" name="orderNo" value="${res.orderNo}" required  lay-verify="required" placeholder="请输入资源排序" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <c:if test="${res.type != 1}">
+                <c:if test="${res.type != 0}">
                     <div class="layui-form-item partent-id">
                         <label class="layui-form-label">父级资源：</label>
                         <div class="layui-input-block parent-id-ds">

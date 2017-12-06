@@ -39,6 +39,12 @@ public class ResourceController {
             return AjaxResult.fail("资源类型不能为空！");
         }
 
+        if (orgResourceV2.getType().equals(ResourceTypeStatus.MODULE.getCode())){
+            if (StringUtils.isEmpty(orgResourceV2.getParentId())){
+                return AjaxResult.fail("父级资源不能为空！");
+            }
+        }
+
         if (orgResourceV2.getType().equals(ResourceTypeStatus.MENU.getCode())){
             if (StringUtils.isEmpty(orgResourceV2.getUrl())){
                 return AjaxResult.fail("资源链接不能为空！");
@@ -81,6 +87,7 @@ public class ResourceController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("resource/add");
 
+        modelAndView.addObject("systems", this.service.findSystem());
         modelAndView.addObject("modules", this.service.findModule());
         modelAndView.addObject("menus", this.service.findMenu());
 
@@ -107,6 +114,9 @@ public class ResourceController {
         }
         if (res.getType().equals(ResourceTypeStatus.BUTTON.getCode())){
             modelAndView.addObject("parents", this.service.findMenu());
+        }
+        if (res.getType().equals(ResourceTypeStatus.MODULE.getCode())){
+            modelAndView.addObject("parents", this.service.findSystem());
         }
 
         return modelAndView;

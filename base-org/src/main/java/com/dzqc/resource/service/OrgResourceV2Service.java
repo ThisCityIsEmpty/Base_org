@@ -24,6 +24,11 @@ public interface OrgResourceV2Service {
     List<OrgResourceV2> findAll();
 
     /**
+     * 查询子系统
+     */
+    List<OrgResourceV2> findSystem();
+
+    /**
      * 查询模块类型的资源
      */
     List<OrgResourceV2> findModule();

@@ -42,11 +42,15 @@ public class OrgResourceV2ServiceImpl implements OrgResourceV2Service {
     public List<OrgResourceV2> findAll() {
         List<OrgResourceV2> list = this.dao.findAll();
 
+        List<OrgResourceV2> systems = new ArrayList<>();
         List<OrgResourceV2> modules = new ArrayList<>();
         List<OrgResourceV2> menus = new ArrayList<>();
         List<OrgResourceV2> buttons = new ArrayList<>();
 
         for (OrgResourceV2 orgResourceV2 : list){
+            if (orgResourceV2.getType().equals(ResourceTypeStatus.SYSTEM.getCode())){
+                systems.add(orgResourceV2);
+            }
             if (orgResourceV2.getType().equals(ResourceTypeStatus.MODULE.getCode())){
                 modules.add(orgResourceV2);
             }
@@ -61,7 +65,12 @@ public class OrgResourceV2ServiceImpl implements OrgResourceV2Service {
         menus = this.setChildList(menus, buttons);
         modules = this.setChildList(modules, menus);
 
-        return modules;
+        return this.setChildList(systems, modules);
+    }
+
+    @Override
+    public List<OrgResourceV2> findSystem() {
+        return this.dao.findAllByType(ResourceTypeStatus.SYSTEM.getCode());
     }
 
     public List<OrgResourceV2> findModule() {
@@ -89,7 +98,7 @@ public class OrgResourceV2ServiceImpl implements OrgResourceV2Service {
             List<OrgResourceV2> childList = new ArrayList<>();
             if (parents.size() > 0){
                 for (OrgResourceV2 child : children){
-                    if (child.getParentId().endsWith(parent.getId())){
+                    if (child.getParentId().equals(parent.getId())){
                         childList.add(child);
                     }
                 }

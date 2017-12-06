@@ -30,6 +30,9 @@
 </div>
 
 <script type="text/html" id="type_template">
+    {{# if(d.type == 0){ }}
+        子系统
+    {{# } }}
     {{# if(d.type == 1){ }}
         模块
     {{# } }}
