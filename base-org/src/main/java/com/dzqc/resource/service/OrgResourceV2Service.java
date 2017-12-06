@@ -24,11 +24,6 @@ public interface OrgResourceV2Service {
     List<OrgResourceV2> findAll();
 
     /**
-     * 查询子系统
-     */
-    List<OrgResourceV2> findSystem();
-
-    /**
      * 查询模块类型的资源
      */
     List<OrgResourceV2> findModule();
@@ -37,6 +32,17 @@ public interface OrgResourceV2Service {
      * 查询菜单类型的资源
      */
     List<OrgResourceV2> findMenu();
+
+    /**
+     * 查询模块和菜单组成的资源树
+     */
+    OrgResourceV2 findModuleAndMenu();
+
+    /**
+     * 查询模块和菜单类型的资源
+     * @param types 资源类型
+     */
+    List<OrgResourceV2> findModuleAndMenu(List<Integer> types);
 
     /**
      * 根据资源ID，查找资源

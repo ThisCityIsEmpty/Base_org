@@ -64,9 +64,22 @@ public class OrgResourceV2 implements Serializable {
      */
     private Date createTime;
 
-    private List<OrgResourceV2> childList;
+    private List<OrgResourceV2> children;
 
     public OrgResourceV2() {
+    }
+
+    public OrgResourceV2(String name) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.url = url;
+        this.authCode = authCode;
+        this.icon = icon;
+        this.orderNo = orderNo;
+        this.parentId = parentId;
+        this.deleteFlag = deleteFlag;
+        this.createTime = createTime;
     }
 
     public OrgResourceV2(String id, String name, Integer type, String url, String authCode,
@@ -177,16 +190,17 @@ public class OrgResourceV2 implements Serializable {
     }
 
     @Transient
-    public List<OrgResourceV2> getChildList() {
-        return childList;
+    public List<OrgResourceV2> getChildren() {
+        return children;
     }
 
-    public void setChildList(List<OrgResourceV2> childList) {
-        this.childList = childList;
+    public void setChildren(List<OrgResourceV2> children) {
+        this.children = children;
     }
 
     public void setDefaultData(){
         this.id = ObjectUtil.createUUID();
+        this.deleteFlag = Boolean.FALSE;
         this.createTime = new Date();
     }
 }

@@ -2,6 +2,7 @@ package com.dzqc.resource.service;
 
 import com.dzqc.base.AbstractJUnit;
 import com.dzqc.resource.entity.OrgResourceV2;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,5 +29,13 @@ public class OrgResourceV2ServiceTest extends AbstractJUnit {
     @Test
     public void add() throws Exception {
     }
+
+    @Test
+    public void findModuleAndMenu() throws Exception {
+        OrgResourceV2 root = this.service.findModuleAndMenu();
+        assertNotNull(root);
+    }
+
+
 
 }

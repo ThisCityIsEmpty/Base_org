@@ -7,7 +7,6 @@ package com.dzqc.resource.status;
  **/
 public enum ResourceTypeStatus {
 
-    SYSTEM(0, "子系统"),
     MODULE(1, "模块"),
     MENU(2, "菜单"),
     BUTTON(3, "按钮");

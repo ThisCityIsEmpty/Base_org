@@ -6,6 +6,7 @@ import com.dzqc.resource.entity.OrgResourceV2;
 import com.dzqc.resource.service.OrgResourceV2Service;
 import com.dzqc.resource.status.ResourceStatus;
 import com.dzqc.resource.status.ResourceTypeStatus;
+import com.dzqc.resource.util.ListToTree;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,15 +44,11 @@ public class OrgResourceV2ServiceImpl implements OrgResourceV2Service {
     public List<OrgResourceV2> findAll() {
         List<OrgResourceV2> list = this.dao.findAll();
 
-        List<OrgResourceV2> systems = new ArrayList<>();
         List<OrgResourceV2> modules = new ArrayList<>();
         List<OrgResourceV2> menus = new ArrayList<>();
         List<OrgResourceV2> buttons = new ArrayList<>();
 
         for (OrgResourceV2 orgResourceV2 : list){
-            if (orgResourceV2.getType().equals(ResourceTypeStatus.SYSTEM.getCode())){
-                systems.add(orgResourceV2);
-            }
             if (orgResourceV2.getType().equals(ResourceTypeStatus.MODULE.getCode())){
                 modules.add(orgResourceV2);
             }
@@ -65,12 +63,7 @@ public class OrgResourceV2ServiceImpl implements OrgResourceV2Service {
         menus = this.setChildList(menus, buttons);
         modules = this.setChildList(modules, menus);
 
-        return this.setChildList(systems, modules);
-    }
-
-    @Override
-    public List<OrgResourceV2> findSystem() {
-        return this.dao.findAllByType(ResourceTypeStatus.SYSTEM.getCode());
+        return modules;
     }
 
     public List<OrgResourceV2> findModule() {
@@ -80,6 +73,17 @@ public class OrgResourceV2ServiceImpl implements OrgResourceV2Service {
 
     public List<OrgResourceV2> findMenu() {
         return this.dao.findAllByType(ResourceTypeStatus.MENU.getCode());
+    }
+
+    @Override
+    public OrgResourceV2 findModuleAndMenu() {
+        Integer [] types = {0, 3};
+        return ListToTree.buildByRecursive(this.findModuleAndMenu(Arrays.asList(types)));
+    }
+
+    @Override
+    public List<OrgResourceV2> findModuleAndMenu(List<Integer> types) {
+        return this.dao.findByTypeIsNotIn(types);
     }
 
     @Override
@@ -104,7 +108,7 @@ public class OrgResourceV2ServiceImpl implements OrgResourceV2Service {
                 }
                 if (childList.size() > 0){
                     children.removeAll(childList);
-                    parent.setChildList(childList);
+                    parent.setChildren(childList);
                 }
             }
         }

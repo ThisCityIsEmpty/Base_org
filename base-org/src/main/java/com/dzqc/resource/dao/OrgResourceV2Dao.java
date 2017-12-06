@@ -28,6 +28,12 @@ public interface OrgResourceV2Dao extends CommonDao<OrgResourceV2, String> {
     List<OrgResourceV2> findByNameIs(String name);
 
     /**
+     * 查找不包含<types>的资源
+     * @param types 资源类型
+     */
+    List<OrgResourceV2> findByTypeIsNotIn(List<Integer> types);
+
+    /**
      * 根据资源ID，修改资源状态
      * @param id 资源ID
      * @param status 资源状态

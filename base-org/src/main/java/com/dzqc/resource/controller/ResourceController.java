@@ -87,7 +87,6 @@ public class ResourceController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("resource/add");
 
-        modelAndView.addObject("systems", this.service.findSystem());
         modelAndView.addObject("modules", this.service.findModule());
         modelAndView.addObject("menus", this.service.findMenu());
 
@@ -114,9 +113,6 @@ public class ResourceController {
         }
         if (res.getType().equals(ResourceTypeStatus.BUTTON.getCode())){
             modelAndView.addObject("parents", this.service.findMenu());
-        }
-        if (res.getType().equals(ResourceTypeStatus.MODULE.getCode())){
-            modelAndView.addObject("parents", this.service.findSystem());
         }
 
         return modelAndView;
