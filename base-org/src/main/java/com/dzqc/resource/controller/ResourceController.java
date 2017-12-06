@@ -39,19 +39,14 @@ public class ResourceController {
             return AjaxResult.fail("资源类型不能为空！");
         }
 
-        if (orgResourceV2.getType().equals(ResourceTypeStatus.MODULE.getCode())){
-            if (StringUtils.isEmpty(orgResourceV2.getParentId())){
-                return AjaxResult.fail("父级资源不能为空！");
-            }
-        }
-
         if (orgResourceV2.getType().equals(ResourceTypeStatus.MENU.getCode())){
             if (StringUtils.isEmpty(orgResourceV2.getUrl())){
                 return AjaxResult.fail("资源链接不能为空！");
             }
-            if (StringUtils.isEmpty(orgResourceV2.getParentId())){
+            if (StringUtils.isEmpty(orgResourceV2.getParentTree())){
                 return AjaxResult.fail("父级资源不能为空！");
             }
+            orgResourceV2.setParentId(orgResourceV2.getParentTree());
         }
 
         if (orgResourceV2.getType().equals(ResourceTypeStatus.BUTTON.getCode())){
@@ -128,6 +123,15 @@ public class ResourceController {
                                     @RequestParam(value = "limit", defaultValue = "10") int size){
         Page<OrgResourceV2> result = this.service.fingByParams(resName, page - 1, size);
         return LayuiPageResult.success((int)result.getTotalElements(), result.getContent());
+    }
+
+    /**
+     * 数据：模块和菜单树
+     */
+    @RequestMapping("/data/tree")
+    @ResponseBody
+    public AjaxResult dataTree(){
+        return AjaxResult.success(this.service.findModuleAndMenu());
     }
 
     /**

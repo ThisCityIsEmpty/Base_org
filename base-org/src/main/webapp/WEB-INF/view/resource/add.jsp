@@ -15,6 +15,8 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <form id="add-res" class="layui-form">
+                <input type="hidden" id="parentTree" name="parentTree" />
+
                 <div class="layui-form-item">
                     <label class="layui-form-label">资源名称：</label>
                     <div class="layui-input-block">
@@ -55,6 +57,14 @@
                         </select>
                     </div>
                 </div>
+                <div class="layui-form-item partent-tree">
+                    <label class="layui-form-label">父级资源：</label>
+                    <div class="layui-input-block parent-id-ds">
+                        <input id="ptreetext" type="text" class="layui-input" readonly="readonly">
+                        &nbsp;
+                        <ul id="ptree" style="background-color: #dddddd;"></ul>
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <button class="layui-btn" lay-submit lay-filter="formFilter">新增</button>
                 </div>
@@ -80,12 +90,32 @@
 </script>
 
 <script>
-    layui.use('element', function(){
+    layui.use(['element', 'tree'], function(){
         var element = layui.element;
 
+        layElHide(".partent-tree");
         layElHide(".partent-id");
         layElHide(".res-url");
-        layElHide(".res-code")
+        layElHide(".res-code");
+
+        layui.jquery.ajax({
+            "url" : "${base}" + "/resource/data/tree",
+            "type" : "post",
+            "success" : function (json) {
+                if (json.success){
+                    layui.tree({
+                        elem: '#ptree',
+                        nodes: json.data.children,
+                        click : function (node) {
+                            layui.jquery("#parentTree").val(node.id);
+                            layui.jquery("#ptreetext").val(node.name);
+                        }
+                    });
+                }else {
+                    layer.msg(json.msg);
+                }
+            }
+        });
     });
 
     layui.use('form', function(){
@@ -94,18 +124,21 @@
         form.on('radio(radioFilter)', function(data){
             var radioValue = data.value;
             if (radioValue == 1) {
+                layElHide(".partent-tree");
                 layElHide(".partent-id");
                 layElHide(".res-url");
                 layElHide(".res-code")
             }else if (radioValue == 2) {
-                layElshow(".partent-id");
+                layElshow(".partent-tree");
+                layElHide(".partent-id");
                 layElshow(".res-url");
                 layElHide(".res-code");
-                module_show();
+                //module_show();
             }else if (radioValue == 3){
+                layElHide(".partent-tree");
                 layElshow(".partent-id");
                 layElHide(".res-url");
-                layElshow(".res-code")
+                layElshow(".res-code");
                 menu_show();
             }
             form.render();

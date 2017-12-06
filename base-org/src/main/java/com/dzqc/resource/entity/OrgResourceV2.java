@@ -66,6 +66,11 @@ public class OrgResourceV2 implements Serializable {
 
     private List<OrgResourceV2> children;
 
+    /**
+     *  父ID（当资源类型为菜单时，使用这个属性）
+     */
+    private String parentTree;
+
     public OrgResourceV2() {
     }
 
@@ -196,6 +201,15 @@ public class OrgResourceV2 implements Serializable {
 
     public void setChildren(List<OrgResourceV2> children) {
         this.children = children;
+    }
+
+    @Transient
+    public String getParentTree() {
+        return parentTree;
+    }
+
+    public void setParentTree(String parentTree) {
+        this.parentTree = parentTree;
     }
 
     public void setDefaultData(){
